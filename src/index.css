@@ -8,42 +8,68 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* ProtoBuddy Dark Theme */
-    --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
+    /* Ultra-Modern Hardware Engineering Theme */
+    --background: 222 84% 4%;  /* Deep Navy #0F172A */
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Glass Morphism Cards */
+    --card: 240 6% 8%;
+    --card-foreground: 0 0% 95%;
+    --glass: 240 6% 12%;
+    --glass-border: 240 6% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover Styling */
+    --popover: 240 6% 8%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Electric Blue Accents */
-    --primary: 199 89% 48%;
+    /* Primary Electric Blue */
+    --primary: 199 89% 48%;  /* #0EA5E9 */
     --primary-foreground: 0 0% 100%;
     --primary-glow: 199 89% 60%;
+    --primary-dark: 199 89% 35%;
 
-    /* Chat Interface Colors */
-    --secondary: 240 6% 10%;
+    /* Cyan Accents */
+    --cyan: 188 95% 43%;  /* #06B6D4 */
+    --cyan-glow: 188 95% 55%;
+    
+    /* Circuit Board Green */
+    --circuit-green: 158 64% 52%;  /* #10B981 */
+    --circuit-green-glow: 158 64% 65%;
+    
+    /* Electric Orange */
+    --electric-orange: 21 95% 54%;  /* #F97316 */
+    --electric-orange-glow: 21 95% 67%;
+
+    /* Refined Interface Colors */
+    --secondary: 240 6% 9%;
     --secondary-foreground: 0 0% 95%;
     
-    --muted: 240 5% 14%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 70%;
     
-    --accent: 240 5% 18%;
+    --accent: 240 5% 20%;
     --accent-foreground: 0 0% 95%;
     
-    /* Chat Message Colors */
+    /* Enhanced Chat Colors */
     --chat-user: 199 89% 48%;
+    --chat-user-glow: 199 89% 60%;
     --chat-user-foreground: 0 0% 100%;
-    --chat-bot: 240 5% 18%;
+    --chat-bot: 240 6% 12%;
     --chat-bot-foreground: 0 0% 95%;
+    --chat-bot-border: 240 6% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status Colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 158 64% 52%;
+    --success-foreground: 0 0% 98%;
+    --warning: 21 95% 54%;
+    --warning-foreground: 0 0% 98%;
 
-    --border: 240 5% 20%;
-    --input: 240 6% 10%;
+    /* Interface Elements */
+    --border: 240 6% 20%;
+    --input: 240 6% 8%;
+    --input-border: 240 6% 25%;
     --ring: 199 89% 48%;
 
     --radius: 0.5rem;
@@ -116,9 +142,9 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  /* Chat Animations */
+  /* Advanced Animations */
   .typing-dot {
-    animation: typing 1.5s infinite;
+    animation: typing 1.4s infinite ease-in-out;
   }
   
   .typing-dot:nth-child(2) {
@@ -132,21 +158,104 @@ All colors MUST be HSL.
   @keyframes typing {
     0%, 60%, 100% {
       transform: translateY(0);
-      opacity: 0.7;
+      opacity: 0.4;
     }
     30% {
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       opacity: 1;
     }
   }
-  
-  /* Smooth transitions */
-  .chat-transition {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Glow Animations */
+  .glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px hsl(var(--primary) / 0.6), 0 0 60px hsl(var(--primary) / 0.2);
+    }
+  }
+
+  /* Circuit Board Animation */
+  .circuit-pattern {
+    background-image: 
+      linear-gradient(90deg, hsl(var(--circuit-green) / 0.1) 1px, transparent 1px),
+      linear-gradient(hsl(var(--circuit-green) / 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: circuitFlow 20s linear infinite;
+  }
+
+  @keyframes circuitFlow {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+  }
+
+  /* Glass Morphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Advanced Transitions */
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .spring-transition {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   
-  /* Gradient backgrounds */
-  .bg-gradient-chat {
-    background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--secondary)));
+  /* Gradient Backgrounds */
+  .bg-gradient-main {
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%,
+      hsl(240 10% 6%) 50%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg,
+      hsl(var(--primary) / 0.1) 0%,
+      hsl(var(--cyan) / 0.05) 50%,
+      hsl(var(--circuit-green) / 0.05) 100%
+    );
+  }
+
+  /* Text Effects */
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.6);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, 
+      hsl(var(--primary)), 
+      hsl(var(--cyan))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hover Effects */
+  .hover-glow:hover {
+    box-shadow: 0 8px 32px hsl(var(--primary) / 0.3);
+    transform: translateY(-2px);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   }
 }

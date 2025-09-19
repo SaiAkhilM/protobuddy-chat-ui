@@ -13,6 +13,16 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Monaco', 'Consolas', 'monospace'],
+      },
+      fontSize: {
+        '7xl': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+        '8xl': ['6rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+        '9xl': ['8rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -23,12 +33,31 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           glow: "hsl(var(--primary-glow))",
+          dark: "hsl(var(--primary-dark))",
+        },
+        cyan: {
+          DEFAULT: "hsl(var(--cyan))",
+          glow: "hsl(var(--cyan-glow))",
+        },
+        "circuit-green": {
+          DEFAULT: "hsl(var(--circuit-green))",
+          glow: "hsl(var(--circuit-green-glow))",
+        },
+        "electric-orange": {
+          DEFAULT: "hsl(var(--electric-orange))",
+          glow: "hsl(var(--electric-orange-glow))",
+        },
+        glass: {
+          DEFAULT: "hsl(var(--glass))",
+          border: "hsl(var(--glass-border))",
         },
         chat: {
           user: "hsl(var(--chat-user))",
+          "user-glow": "hsl(var(--chat-user-glow))",
           "user-foreground": "hsl(var(--chat-user-foreground))",
           bot: "hsl(var(--chat-bot))",
           "bot-foreground": "hsl(var(--chat-bot-foreground))",
+          "bot-border": "hsl(var(--chat-bot-border))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
