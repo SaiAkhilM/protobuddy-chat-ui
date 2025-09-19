@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: protobuddy
+  labels:
+    name: protobuddy
+    app: protobuddy
