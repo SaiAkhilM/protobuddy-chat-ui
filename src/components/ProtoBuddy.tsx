@@ -23,13 +23,17 @@ import { Badge } from '@/components/ui/badge';
 export interface Message {
   id: string;
   content: string;
-  sender: 'user' | 'bot';
+  sender: 'user' | 'assistant';
   timestamp: Date;
   type?: 'text' | 'component' | 'diagram';
+  context?: {
+    recommendations?: any[];
+    compatibility?: any;
+  };
 }
 
 interface ProtoBuddyProps {
-  onSendMessage?: (message: string) => void;
+  onSendMessage?: (message: string) => Promise<Message | null>;
 }
 
 const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
@@ -37,7 +41,7 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
     {
       id: '1',
       content: "👋 Hi! I'm ProtoBuddy. I help engineers find compatible components and solve hardware challenges. What are you building today?",
-      sender: 'bot',
+      sender: 'assistant',
       timestamp: new Date(),
       type: 'text'
     },
@@ -54,10 +58,10 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    const newMessage: Message = {
+    const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
       sender: 'user',
@@ -65,39 +69,44 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
       type: 'text'
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    setMessages(prev => [...prev, userMessage]);
+    const messageContent = inputValue;
     setInputValue('');
-    
-    if (onSendMessage) {
-      onSendMessage(inputValue);
-    }
-
-    // Enhanced bot responses
     setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      let botResponse: Message;
-      
-      if (inputValue.toLowerCase().includes('arduino') || inputValue.toLowerCase().includes('compatibility')) {
-        botResponse = {
-          id: (Date.now() + 1).toString(),
-          content: "Great choice! For Arduino projects, I recommend checking component voltage levels (3.3V vs 5V), current requirements, and pin compatibility. Would you like me to show you a compatibility matrix for common sensors?",
-          sender: 'bot',
-          timestamp: new Date(),
-          type: 'component'
-        };
-      } else {
-        botResponse = {
-          id: (Date.now() + 1).toString(),
-          content: "I'd be happy to help you with that! Could you tell me more about your specific requirements or the type of project you're working on? I can assist with component selection, wiring diagrams, and compatibility checks.",
-          sender: 'bot',
-          timestamp: new Date(),
-          type: 'text'
-        };
+
+    try {
+      if (onSendMessage) {
+        const assistantMessage = await onSendMessage(messageContent);
+
+        if (assistantMessage) {
+          setMessages(prev => [...prev, assistantMessage]);
+        } else {
+          // Fallback if API fails
+          const fallbackMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: "I'm sorry, I'm having trouble connecting to my backend right now. Please try again in a moment.",
+            sender: 'assistant',
+            timestamp: new Date(),
+            type: 'text'
+          };
+          setMessages(prev => [...prev, fallbackMessage]);
+        }
       }
-      
-      setMessages(prev => [...prev, botResponse]);
-    }, 2500);
+    } catch (error) {
+      console.error('Error sending message:', error);
+
+      // Fallback error message
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "I encountered an error while processing your message. Please check your connection and try again.",
+        sender: 'assistant',
+        timestamp: new Date(),
+        type: 'text'
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -255,7 +264,7 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
                         }`}
                       >
                         <div className="flex items-start gap-3">
-                          {message.sender === 'bot' && (
+                          {message.sender === 'assistant' && (
                             <div className="p-1.5 rounded-lg bg-primary/20 flex-shrink-0">
                               <Bot className="w-4 h-4 text-primary" />
                             </div>
