@@ -22,6 +22,13 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
+        },
+        chat: {
+          user: "hsl(var(--chat-user))",
+          "user-foreground": "hsl(var(--chat-user-foreground))",
+          bot: "hsl(var(--chat-bot))",
+          "bot-foreground": "hsl(var(--chat-bot-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
