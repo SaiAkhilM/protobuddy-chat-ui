@@ -24,7 +24,7 @@ export interface Message {
   id: string;
   content: string;
   sender: 'user' | 'assistant';
-  timestamp: Date;
+  timestamp: Date | string;
   type?: 'text' | 'component' | 'diagram';
   context?: {
     recommendations?: any[];
@@ -58,7 +58,10 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (!inputValue.trim()) return;
 
     const userMessage: Message = {
@@ -111,12 +114,14 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       handleSendMessage();
     }
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const formatTime = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   const recentComponents = [
@@ -322,7 +327,13 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
 
               {/* Enhanced Input Area */}
               <div className="p-6 border-t border-glass-border">
-                <div className="flex gap-3">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }}
+                  className="flex gap-3"
+                >
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -331,13 +342,13 @@ const ProtoBuddy: React.FC<ProtoBuddyProps> = ({ onSendMessage }) => {
                     className="flex-1 h-12 glass border-glass-border focus:border-primary focus:ring-2 focus:ring-primary/20 smooth-transition font-medium"
                   />
                   <Button
-                    onClick={handleSendMessage}
+                    type="submit"
                     disabled={!inputValue.trim()}
                     className="h-12 px-6 bg-gradient-to-r from-primary to-primary-glow hover:from-primary-dark hover:to-primary shadow-lg shadow-primary/20 hover-lift spring-transition disabled:opacity-50"
                   >
                     <Send className="w-5 h-5" />
                   </Button>
-                </div>
+                </form>
                 <div className="flex gap-2 mt-3">
                   <Badge variant="outline" className="text-xs cursor-pointer hover:bg-accent smooth-transition">
                     Arduino compatibility
